@@ -2,128 +2,182 @@
 
 Interactive demo frontend for **RecoveryOS**, an AI-powered post-discharge care coordinator.
 
-Built for the Google Cloud Hackathon 2026.
+Built for the **Gen AI Academy APAC Edition Hackathon** by Google Cloud.
 
-**Live Demo:** [https://cosmic-corgis-multiagent.web.app](https://cosmic-corgis-multiagent.web.app)
-
-**Backend API:** Deployed on Google Cloud Run · Powered by Gemini 2.5 Flash on Vertex AI
+**Participant:** Vidhi Agarwal
 
 ---
 
-## What it covers
+## Live Links
 
-The demo walks through all 6 key capabilities in sequence:
-
-| Step | Feature |
+| | URL |
 |---|---|
-| 1 | Upload a discharge summary PDF — any patient |
-| 2 | View the AI-generated recovery plan — medications, red flags, restrictions |
-| 3 | See appointments auto-booked via Google Calendar MCP |
-| 4 | Submit a daily symptom check-in via conversational AI |
-| 5 | Trigger escalation — critical symptoms detected, care team notified |
-| 6 | View auto-generated insurance claim letter |
+| 🌐 **Demo UI** | https://recoveryos-ui-e3de5vtq6q-el.a.run.app |
+| 📡 **Backend API** | https://recoveryos-api-e3de5vtq6q-el.a.run.app |
+| 📖 **API Docs (Swagger)** | https://recoveryos-api-e3de5vtq6q-el.a.run.app/docs |
 
 ---
 
-## Files
+## What is RecoveryOS?
+
+**RecoveryOS (Recovery Operating System)** coordinates a patient's entire post-discharge recovery automatically.
+One discharge summary goes in — medications, appointments, caregiver tasks, symptom monitoring and insurance documents come out.
+
+**Problem it solves:** 20% of patients are readmitted within 30 days of discharge — not because their condition worsens,
+but because post-discharge coordination fails. Medications are missed, follow-ups are forgotten, red flag symptoms go unnoticed.
+
+---
+
+## Demo — 6 Steps
+
+The UI walks through the complete end-to-end workflow:
+
+| Step | Screen | What it shows |
+|---|---|---|
+| 1 | Upload Discharge | Drag and drop a PDF or pick a sample patient. 5 AI agents fire in parallel. |
+| 2 | Recovery Plan | Medications extracted with schedules, red flag symptoms, restrictions — all from the document. |
+| 3 | Appointments | Every follow-up date auto-detected and scheduled in Google Calendar via MCP. |
+| 4 | Symptom Check-in | Daily conversational check-in. AI scores severity and monitors for warning signs. |
+| 5 | Escalation | Critical symptoms trigger automatic SMS to caregiver + urgent appointment booked. |
+| 6 | Insurance Claim | Formal claim letter generated and ready to download — no manual paperwork. |
+
+---
+
+## Project Files
 
 ```
 recoveryos-ui/
-├── index.html                   ← Complete demo (single file, no build needed)
-├── sample_discharge_stroke.txt  ← Sample patient file to upload in demo
+├── index.html                   ← Complete demo UI (single file, no build step needed)
+├── sample_discharge_stroke.txt  ← Realistic stroke patient discharge summary for demo
 ├── firebase.json                ← Firebase Hosting config
-├── .firebaserc                  ← Firebase project config
+├── .firebaserc                  ← Firebase project (cosmic-corgis-multiagent)
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Running locally
+## Running Locally
 
-No build step needed. Just open in browser:
+No build step, no npm install. Just open in browser:
 
 ```bash
 # Option 1 — open directly
 open index.html
 
-# Option 2 — serve locally
+# Option 2 — serve via Python
 python3 -m http.server 3000
-# then visit http://localhost:3000
+# Visit http://localhost:3000
 ```
 
 ---
 
-## Connecting to the live backend
+## Connecting to the Live Backend
 
 1. Open the demo in your browser
-2. Paste your Cloud Run API URL in the field at the top of Screen 1
+2. At the top of Screen 1, paste the backend API URL:
+   ```
+   https://recoveryos-api-e3de5vtq6q-el.a.run.app
+   ```
 3. Click **Save & Connect**
 
-The URL looks like:
-```
-https://recoveryos-api-xxxx-el.a.run.app
-```
-
-Once connected, all 6 demo steps make real API calls to the deployed backend.
-If the backend is unavailable, the UI falls back to realistic mock data automatically.
+All 6 demo steps will now make real API calls to the deployed Gemini-powered backend.
+If the backend is unavailable, the UI automatically falls back to realistic mock data — the demo never breaks.
 
 ---
 
-## Deploying to Firebase Hosting
+## Sample Patient File
+
+`sample_discharge_stroke.txt` is a realistic discharge summary for **Priya Venkataraman**, a 67-year-old
+stroke patient discharged from Apollo Hospitals, Chennai. Upload it in Step 1 to show the full AI pipeline
+working on a real clinical document.
+
+**Built-in sample patients** (no upload needed — just click):
+
+| Patient | Case | Complexity |
+|---|---|---|
+| 🧠 Priya Venkataraman | Ischemic Stroke + Diabetes | 5 medications, 5 appointments, aphasia rehab |
+| 🤱 Anjali Kapoor | Post C-Section Delivery | 4 medications, 4 appointments, breastfeeding instructions |
+| 🎗️ Mohan Pillai | Chemotherapy Recovery | Neutropenia precautions, 4 medications, strict diet protocol |
+
+---
+
+## Deploying to Cloud Run
+
+The UI is deployed as a static server on Cloud Run (no Firebase required):
 
 ```bash
-# Install Firebase CLI
-npm install -g firebase-tools
+cd recoveryos-ui
 
-# Login
-firebase login
+# Create a simple Python server
+cat > main.py << 'PYEOF'
+import http.server, socketserver, os
+PORT = int(os.environ.get("PORT", 8080))
+handler = http.server.SimpleHTTPRequestHandler
+handler.extensions_map.update({".html": "text/html"})
+with socketserver.TCPServer(("", PORT), handler) as httpd:
+    print(f"Serving on port {PORT}")
+    httpd.serve_forever()
+PYEOF
+
+echo "python-3.11" > runtime.txt
 
 # Deploy
-firebase deploy --only hosting
+gcloud run deploy recoveryos-ui \
+  --source . \
+  --region asia-south1 \
+  --allow-unauthenticated \
+  --port 8080
 ```
 
-This gives you a public URL you can open on any device including a phone.
-
 ---
 
-## Sample patient file
-
-`sample_discharge_stroke.txt` is a realistic discharge summary for a stroke patient.
-Upload it in Step 1 of the demo to show the AI pipeline with a real document.
-
-Other built-in sample patients (selectable without uploading):
-- 🧠 Stroke Recovery — Priya Venkataraman
-- 🤱 Post-Delivery Care — Anjali Kapoor
-- 🎗️ Chemo Recovery — Mohan Pillai
-
----
-
-## Tech stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | AI model | Gemini 2.5 Flash |
-| AI platform | Google Vertex AI |
-| Backend | FastAPI on Google Cloud Run |
+| AI platform | Google Vertex AI (ADC — no API key needed) |
+| Backend framework | FastAPI (Python) |
+| Backend hosting | Google Cloud Run |
 | Database | Google Cloud SQL (PostgreSQL 16) |
 | File storage | Google Cloud Storage |
-| Frontend hosting | Firebase Hosting |
-| Auth | Application Default Credentials (ADC) |
+| UI hosting | Google Cloud Run (static server) |
+| Background jobs | APScheduler (daily reminders, check-ins) |
 
 ---
 
-## Backend repository
+## Multi-Agent Architecture
 
-The backend (RecoveryOS API) is in a separate repository.
+```
+Discharge PDF
+      │
+      ▼
+Orchestrator Agent (Gemini 2.5 Flash)
+      │ fires all 5 in parallel via asyncio.gather()
+      ├── 💊 Medication Agent     → extracts drugs, schedules, dose tracking
+      ├── 📅 Appointment Agent    → books follow-ups via Google Calendar MCP
+      ├── 🩺 Symptom Monitor      → daily check-ins, severity scoring, escalation
+      ├── 👥 Caregiver Coordinator → task assignment via Todoist MCP
+      └── 📋 Insurance Agent      → generates claim letters, referrals, lab reqs
+```
 
-Architecture: 1 Orchestrator Agent + 5 Sub-Agents running in parallel:
-- Medication Agent
-- Appointment Agent (Google Calendar MCP)
-- Symptom Monitor Agent
-- Caregiver Coordinator Agent (Todoist MCP)
-- Insurance Documents Agent
+---
+
+## Backend Repository
+
+The full RecoveryOS API backend (FastAPI + all agents + GCP infrastructure scripts) is in a separate repository.
+
+Includes:
+- Complete agent source code (`agents/`)
+- MCP integrations — Google Calendar, GCS, Todoist, Notion
+- Database models (10 tables)
+- GCP setup script (`scripts/gcp_setup.sh`)
+- Cloud Build CI/CD pipeline (`cloudbuild.yaml`)
+- Full test suite (`tests.py`)
 
 ---
 
 *RecoveryOS — Reducing preventable hospital readmissions through AI-coordinated post-discharge care.*
+
+*Gen AI Academy APAC Edition · Google Cloud Hackathon 2026*
