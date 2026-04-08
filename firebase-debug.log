@@ -1,0 +1,77 @@
+[debug] [2026-04-08T13:02:05.179Z] ----------------------------------------------------------------------
+[debug] [2026-04-08T13:02:05.181Z] Command:       /usr/local/nvm/versions/node/v24.14.1/bin/node /usr/local/node_packages/node_modules/.bin/firebase deploy --only hosting
+[debug] [2026-04-08T13:02:05.182Z] CLI Version:   15.10.1
+[debug] [2026-04-08T13:02:05.182Z] Platform:      linux
+[debug] [2026-04-08T13:02:05.182Z] Node Version:  v24.14.1
+[debug] [2026-04-08T13:02:05.182Z] Time:          Wed Apr 08 2026 13:02:05 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-04-08T13:02:05.183Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-08T13:02:06.670Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-08T13:02:06.671Z] > authorizing via signed-in user (vidhiagarwalm11@gmail.com)
+[debug] [2026-04-08T13:02:06.671Z] [iam] checking project cosmic-corgis-multiagent for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-04-08T13:02:06.673Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:06.674Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:06.676Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/cosmic-corgis-multiagent:testIamPermissions [none]
+[debug] [2026-04-08T13:02:06.676Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/cosmic-corgis-multiagent:testIamPermissions  x-goog-user-project=cosmic-corgis-multiagent
+[debug] [2026-04-08T13:02:06.676Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cosmic-corgis-multiagent:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-08T13:02:06.936Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/cosmic-corgis-multiagent:testIamPermissions 200
+[debug] [2026-04-08T13:02:06.937Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/cosmic-corgis-multiagent:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-04-08T13:02:06.938Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:06.938Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:06.938Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent [none]
+[debug] [2026-04-08T13:02:06.938Z] >>> [apiv2][(partial)header] GET https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent  x-goog-user-project=cosmic-corgis-multiagent
+[debug] [2026-04-08T13:02:07.270Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent 403
+[debug] [2026-04-08T13:02:07.270Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent {"error":{"code":403,"message":"Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"containerInfo":"cosmic-corgis-multiagent","serviceTitle":"Firebase Management API","service":"firebase.googleapis.com","activationUrl":"https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent","consumer":"projects/cosmic-corgis-multiagent"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent"}]}]}}
+[debug] [2026-04-08T13:02:07.272Z] Request to https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+[debug] [2026-04-08T13:02:07.527Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+    at responseToError (/usr/local/node_packages/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/usr/local/node_packages/node_modules/firebase-tools/lib/apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to get Firebase project cosmic-corgis-multiagent. Please make sure the project exists and your account has permission to access it.
+[debug] [2026-04-08T13:02:33.230Z] ----------------------------------------------------------------------
+[debug] [2026-04-08T13:02:33.233Z] Command:       /usr/local/nvm/versions/node/v24.14.1/bin/node /usr/local/node_packages/node_modules/.bin/firebase projects:list
+[debug] [2026-04-08T13:02:33.233Z] CLI Version:   15.10.1
+[debug] [2026-04-08T13:02:33.234Z] Platform:      linux
+[debug] [2026-04-08T13:02:33.234Z] Node Version:  v24.14.1
+[debug] [2026-04-08T13:02:33.234Z] Time:          Wed Apr 08 2026 13:02:33 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-04-08T13:02:33.234Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-08T13:02:33.611Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-08T13:02:33.611Z] > authorizing via signed-in user (vidhiagarwalm11@gmail.com)
+[debug] [2026-04-08T13:02:33.617Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:33.617Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:02:33.618Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2026-04-08T13:02:33.619Z] >>> [apiv2][(partial)header] GET https://firebase.googleapis.com/v1beta1/projects  x-goog-user-project=cosmic-corgis-multiagent
+[debug] [2026-04-08T13:02:33.899Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 403
+[debug] [2026-04-08T13:02:33.899Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2026-04-08T13:02:33.900Z] Request to https://firebase.googleapis.com/v1beta1/projects?pageSize=1000 had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+[debug] [2026-04-08T13:02:34.158Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects?pageSize=1000 had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+    at responseToError (/usr/local/node_packages/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/usr/local/node_packages/node_modules/firebase-tools/lib/apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to list Firebase projects. See firebase-debug.log for more info.
+[debug] [2026-04-08T13:03:17.769Z] ----------------------------------------------------------------------
+[debug] [2026-04-08T13:03:17.772Z] Command:       /usr/local/nvm/versions/node/v24.14.1/bin/node /usr/local/node_packages/node_modules/.bin/firebase projects:addfirebase cosmic-corgis-multiagent
+[debug] [2026-04-08T13:03:17.772Z] CLI Version:   15.10.1
+[debug] [2026-04-08T13:03:17.773Z] Platform:      linux
+[debug] [2026-04-08T13:03:17.773Z] Node Version:  v24.14.1
+[debug] [2026-04-08T13:03:17.773Z] Time:          Wed Apr 08 2026 13:03:17 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-04-08T13:03:17.773Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-04-08T13:03:18.107Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-04-08T13:03:18.107Z] > authorizing via signed-in user (vidhiagarwalm11@gmail.com)
+[debug] [2026-04-08T13:03:18.115Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:03:18.115Z] Checked if tokens are valid: true, expires at: 1775656751757
+[debug] [2026-04-08T13:03:18.117Z] >>> [apiv2][query] POST https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase [none]
+[debug] [2026-04-08T13:03:18.117Z] >>> [apiv2][(partial)header] POST https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase  x-goog-user-project=cosmic-corgis-multiagent
+[debug] [2026-04-08T13:03:18.416Z] <<< [apiv2][status] POST https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase 403
+[debug] [2026-04-08T13:03:18.417Z] <<< [apiv2][body] POST https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase {"error":{"code":403,"message":"Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"serviceTitle":"Firebase Management API","containerInfo":"cosmic-corgis-multiagent","service":"firebase.googleapis.com","activationUrl":"https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent","consumer":"projects/cosmic-corgis-multiagent"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent"}]}]}}
+[debug] [2026-04-08T13:03:18.418Z] Request to https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+[debug] [2026-04-08T13:03:18.678Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/cosmic-corgis-multiagent:addFirebase had HTTP Error: 403, Firebase Management API has not been used in project cosmic-corgis-multiagent before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/firebase.googleapis.com/overview?project=cosmic-corgis-multiagent then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+    at responseToError (/usr/local/node_packages/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/usr/local/node_packages/node_modules/firebase-tools/lib/apiv2.js:333:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[error] 
+[error] Error: Failed to add Firebase to Google Cloud Platform project. See firebase-debug.log for more info.

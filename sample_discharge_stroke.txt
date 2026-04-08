@@ -1,0 +1,253 @@
+DISCHARGE SUMMARY
+================================================================================
+
+PATIENT DETAILS
+Name           : Priya Venkataraman
+Date of Birth  : 22/06/1958
+Age            : 67 years
+Gender         : Female
+Blood Group    : O+
+MRD Number     : APL-2026-44891
+
+ADMISSION DETAILS
+Hospital       : Apollo Hospitals, Chennai
+Ward           : Neurology / Stroke Unit (Bed 14-B)
+Admission Date : 01 April 2026
+Discharge Date : 07 April 2026
+Duration       : 7 days
+
+Treating Neurologist : Dr. Ramesh Iyer (DM Neurology, NIMHANS)
+Consultant Physician : Dr. Anita Krishnamurthy (MD General Medicine)
+Physiotherapist      : Mr. Vijay Sundar (BPT, MPT)
+Speech Therapist     : Ms. Deepa Rajan (MASLP)
+
+================================================================================
+FINAL DIAGNOSIS
+================================================================================
+
+PRIMARY DIAGNOSIS:
+Acute Ischemic Stroke — Right Middle Cerebral Artery (MCA) territory infarction
+
+SECONDARY DIAGNOSES:
+1. Type 2 Diabetes Mellitus (on oral hypoglycaemics)
+2. Systemic Hypertension (on medication, suboptimally controlled)
+3. Dyslipidaemia
+
+STROKE CLASSIFICATION: TOAST Classification — Large Artery Atherosclerosis
+NIHSS Score on Admission: 12 (moderate stroke)
+NIHSS Score on Discharge: 6 (mild-moderate, improving)
+
+================================================================================
+HISTORY AND PRESENTATION
+================================================================================
+
+Patient Priya Venkataraman, a 67-year-old housewife with known hypertension and
+type 2 diabetes, presented to the emergency department on 01 April 2026 at 10:30 AM
+with sudden onset left-sided weakness involving face, arm and leg, and difficulty
+finding words (expressive aphasia), of approximately 2 hours duration.
+
+THROMBOLYSIS: IV Alteplase (tPA) administered at 11:15 AM — within 4-hour window.
+Patient showed clinical improvement post-thrombolysis.
+
+MRI BRAIN (01 April 2026): Diffusion restriction in right MCA territory consistent
+with acute infarct. No haemorrhagic transformation. No midline shift.
+
+CT ANGIOGRAPHY: Right MCA proximal M1 segment stenosis (70%). No complete occlusion.
+
+ECHOCARDIOGRAM: Normal LV function. No clot or PFO identified. EF 60%.
+
+ECG: Normal sinus rhythm. No atrial fibrillation detected.
+
+HbA1c: 8.2% (poorly controlled diabetes — counselled)
+LDL Cholesterol: 148 mg/dL (elevated — statin initiated)
+BP on admission: 186/104 mmHg
+
+================================================================================
+CLINICAL COURSE
+================================================================================
+
+Day 1-2: Monitored in stroke unit. IV fluids, antiplatelet therapy, BP management.
+         Swallowing assessment done — safe to eat normally.
+
+Day 3-4: Speech therapy commenced — expressive aphasia improving.
+         Physiotherapy commenced — left-sided exercises.
+         Glucose well-controlled on existing medications.
+
+Day 5-7: Transferred to general neurology ward. Mobilising with support (walker).
+         Continues to improve. Family trained on home care and fall prevention.
+         Social worker consultation done. Home assessment recommended.
+
+================================================================================
+MEDICATIONS ON DISCHARGE
+================================================================================
+
+Patient must take all medications exactly as prescribed. Do not stop any medication
+without consulting your doctor.
+
+1. ASPIRIN 150mg tablet
+   - Once daily after morning food
+   - Do not miss — prevents second stroke
+
+2. CLOPIDOGREL 75mg tablet
+   - Once daily after morning food (together with Aspirin)
+   - Continue for minimum 3 months then review
+
+3. ATORVASTATIN 40mg tablet
+   - Once daily at BEDTIME
+   - Take even if cholesterol feels normal
+
+4. RAMIPRIL 5mg tablet
+   - Once daily in the morning
+   - For blood pressure control
+
+5. METFORMIN 500mg tablet
+   - TWICE daily with meals (morning and evening)
+   - Continue for diabetes
+
+6. PANTOPRAZOLE 40mg tablet
+   - Once daily BEFORE breakfast (30 minutes before eating)
+   - Protects stomach from aspirin
+
+7. PHYSIOTHERAPY EXERCISES (home programme)
+   - Left hand grip and arm exercises — 10 minutes every 2 hours while awake
+   - Instructions given in booklet — follow exactly
+
+================================================================================
+FOLLOW-UP APPOINTMENTS REQUIRED
+================================================================================
+
+URGENT — do not miss any of these appointments:
+
+1. NEUROLOGY REVIEW — Dr. Ramesh Iyer
+   When: In 2 weeks (by 21 April 2026)
+   Where: Apollo Hospitals, Neurology OPD, Ground Floor
+   Bring: All medications, this discharge summary, MRI CD
+
+2. MRI BRAIN — REPEAT SCAN
+   When: After 1 month (by 07 May 2026)
+   Where: Apollo Radiology Department
+   Why: Assess infarct evolution and check for new areas
+
+3. SPEECH THERAPY — ONGOING SESSIONS
+   When: 3 sessions per week starting from Monday 14 April 2026
+   Where: Apollo Rehabilitation Centre OR nearest speech therapy clinic
+   Note: Appointment being arranged — contact 044-28291234 to confirm
+
+4. PHYSIOTHERAPY — WEEKLY HOSPITAL VISIT + DAILY HOME EXERCISES
+   When: Weekly from next Monday; daily home exercises immediately
+   Where: Apollo Physiotherapy, 1st Floor
+
+5. DIABETOLOGIST REVIEW
+   When: In 3 weeks (by 28 April 2026)
+   For: Optimisation of diabetes management post-stroke
+
+6. OPHTHALMOLOGY — VISUAL FIELD ASSESSMENT
+   When: In 2 weeks (by 21 April 2026) — can be same day as neurology visit
+   Why: Rule out visual field defect (common after MCA stroke)
+
+================================================================================
+REHABILITATION INSTRUCTIONS
+================================================================================
+
+SPEECH:
+- Practice reading aloud for 15-20 minutes daily
+- Family should speak slowly and clearly — do not rush patient
+- Use simple short sentences
+- Progress is expected but recovery takes time — be patient
+
+PHYSICAL:
+- Patient must NOT be left alone for the first 2 weeks
+- Assist with all transfers — bed to chair, chair to toilet
+- Use the walking frame at all times — no walking without support
+- Fall prevention is critical — clear pathways, non-slip mats, grab rails
+- Gradually increase activity each week as tolerated
+
+MENTAL HEALTH:
+- Post-stroke depression is common — watch for mood changes
+- Psycho-oncology / counselling support available — contact hospital social worker
+- Engage patient in conversation, TV, family activities
+
+================================================================================
+DIETARY INSTRUCTIONS
+================================================================================
+
+- Strict LOW SALT diet — no adding salt at table, minimal salt in cooking
+- LOW FAT diet — avoid fried foods, ghee, butter, coconut oil
+- DIABETIC DIET — no white rice, white bread, sweets, sugary drinks
+- Good choices: brown rice / millets, vegetables, dal, fish (steamed/boiled)
+- Adequate hydration — 6-8 glasses water daily
+- NO ALCOHOL — permanently
+- NO SMOKING — permanently (if applicable)
+
+================================================================================
+ACTIVITY RESTRICTIONS
+================================================================================
+
+- NO DRIVING for minimum 6 months — must inform DVLA / RTO
+- SUPERVISED movement only — no walking alone without support for 4 weeks
+- NO vigorous exercise or heavy lifting
+- Avoid hot weather and dehydration
+- Avoid stress — delegate responsibilities to family
+- Can resume light household activities at 4 weeks if recovery good
+
+================================================================================
+RED FLAG SYMPTOMS — GO TO EMERGENCY IMMEDIATELY
+================================================================================
+
+Call 108 (ambulance) or go to the nearest emergency department IMMEDIATELY if:
+
+★ Sudden severe headache — described as "worst headache of my life"
+★ Sudden weakness or numbness of face, arm or leg on EITHER side
+★ Facial drooping — one side of face drooping or asymmetrical smile
+★ Slurred speech, difficulty speaking or understanding speech
+★ Vision loss, double vision or blurring
+★ Loss of balance, sudden dizziness, inability to walk
+★ Fever 38.5°C or above
+★ Confusion, unusual behaviour or loss of consciousness
+★ Seizure / fit
+★ Sudden difficulty swallowing
+
+DO NOT WAIT — time is critical for stroke treatment.
+
+================================================================================
+EMERGENCY CONTACTS
+================================================================================
+
+Emergency Contact 1: Suresh Venkataraman (husband)
+Phone: +91 98712 34567
+
+Emergency Contact 2: Kavya Venkataraman (daughter)
+Phone: +91 87654 32109
+
+Apollo Hospitals Stroke Helpline: 044-28291234 (24 hours)
+National Stroke Helpline: 1800-XXX-XXXX
+
+================================================================================
+DISCHARGE CONDITION
+================================================================================
+
+The patient is being discharged in a STABLE condition with improving neurological
+status. She is ambulant with a walking frame, communicating with mild word-finding
+difficulty (improving), and able to perform basic activities with supervision.
+
+Family members (husband and daughter) have been counselled and trained regarding:
+- Medication administration
+- Fall prevention and mobility assistance
+- Recognising red flag symptoms
+- Rehabilitation exercises
+- Dietary modifications
+- Follow-up appointments
+
+Patient and family express understanding of discharge instructions.
+
+================================================================================
+
+Signed: Dr. Ramesh Iyer, DM (Neurology)
+        Apollo Hospitals, Chennai
+        Medical Council Registration: TNM-41872
+        Date: 07 April 2026
+
+================================================================================
+This document is generated and managed by RecoveryOS — AI-Powered Post-Discharge
+Care Coordinator | Powered by Google Gemini 2.5 Flash on Vertex AI
+================================================================================

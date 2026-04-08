@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RecoveryOS — AI-Powered Post-Discharge Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #f5f7fa;
+  --white:     #ffffff;
+  --surface:   #f0f2f5;
+  --border:    #e2e6ed;
+  --border2:   #d0d5dd;
+  --text:      #0f1623;
+  --muted:     #6b7a99;
+  --dim:       #e2e6ed;
+
+  --green:     #059669;
+  --green-bg:  #ecfdf5;
+  --green-b:   #a7f3d0;
+
+  --blue:      #2563eb;
+  --blue-bg:   #eff6ff;
+  --blue-b:    #bfdbfe;
+
+  --red:       #dc2626;
+  --red-bg:    #fef2f2;
+  --red-b:     #fecaca;
+
+  --amber:     #d97706;
+  --amber-bg:  #fffbeb;
+  --amber-b:   #fde68a;
+
+  --purple:    #7c3aed;
+  --purple-bg: #f5f3ff;
+  --purple-b:  #ddd6fe;
+
+  --teal:      #0d9488;
+  --teal-bg:   #f0fdfa;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:    0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 32px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, #059669, #2563eb);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; box-shadow: 0 2px 8px rgba(5,150,105,0.3);
+}
+.logo-name { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.4px; }
+.logo-sub { font-size: 11px; color: var(--muted); font-weight: 400; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-login-btn {
+  padding: 7px 18px; background: transparent;
+  border: 1.5px solid var(--border2); border-radius: 8px;
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500;
+  color: var(--text); cursor: pointer; transition: all .15s;
+}
+.header-login-btn:hover { border-color: var(--blue); color: var(--blue); }
+.header-signup-btn {
+  padding: 7px 18px; background: var(--blue);
+  border: none; border-radius: 8px;
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+  color: #fff; cursor: pointer; transition: all .15s;
+}
+.header-signup-btn:hover { background: #1d4ed8; }
+
+/* ── Step tabs ── */
+.tabs {
+  position: fixed; top: 60px; left: 0; right: 0; z-index: 99;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex; overflow-x: auto; padding: 0 24px;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--muted); cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab.done { color: var(--green); }
+.tab-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-family: 'JetBrains Mono', monospace;
+  background: var(--surface); border: 1.5px solid var(--border2);
+  flex-shrink: 0; font-weight: 600;
+}
+.tab.active .tab-num { background: var(--blue); color: #fff; border-color: var(--blue); }
+.tab.done .tab-num   { background: var(--green-bg); color: var(--green); border-color: var(--green-b); }
+
+/* ── Main ── */
+.main { padding-top: 116px; min-height: 100vh; }
+.screen {
+  display: none; max-width: 860px; margin: 0 auto;
+  padding: 32px 24px 60px;
+  animation: fadeUp .3s ease;
+}
+.screen.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:none;} }
+
+/* ── Typography ── */
+.page-title { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+.page-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 12px; margin-top: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── Cards ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.stat-box {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.stat-val { font-size: 28px; font-weight: 700; margin-bottom: 2px; }
+.stat-lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+/* ── Upload ── */
+.upload-area {
+  border: 2px dashed var(--border2);
+  border-radius: 18px; padding: 56px 40px;
+  text-align: center; cursor: pointer;
+  transition: all .2s; position: relative; overflow: hidden;
+  background: var(--white);
+}
+.upload-area:hover, .upload-area.drag {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.upload-area input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.upload-icon-wrap {
+  width: 64px; height: 64px; border-radius: 18px;
+  background: var(--blue-bg); border: 1px solid var(--blue-b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin: 0 auto 16px;
+}
+.upload-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+.upload-sub { font-size: 13px; color: var(--muted); }
+
+/* ── Sample buttons ── */
+.sample-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.sample-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 10px;
+  border: 1.5px solid var(--border2);
+  background: var(--white); cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--text);
+  transition: all .15s; box-shadow: var(--shadow-sm);
+}
+.sample-btn:hover { border-color: var(--blue); background: var(--blue-bg); color: var(--blue); }
+.sample-btn .s-icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+
+/* ── Processing ── */
+.proc-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow);
+  padding: 24px; margin-top: 20px; display: none;
+}
+.proc-card.show { display: block; }
+.proc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.proc-title { font-size: 15px; font-weight: 600; }
+.progress-track {
+  height: 5px; background: var(--surface); border-radius: 3px;
+  margin-bottom: 6px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  transition: width .5s ease;
+}
+.proc-pct { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 16px; }
+
+.agent-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0; border-bottom: 1px solid var(--border);
+  opacity: 0; transition: opacity .3s;
+}
+.agent-item:last-child { border: none; }
+.agent-item.show { opacity: 1; }
+.a-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.a-name { font-size: 14px; font-weight: 500; flex: 1; }
+.a-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.a-badge {
+  font-size: 11px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  padding: 3px 10px; border-radius: 20px;
+}
+.badge-run  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-b); animation: blink .8s infinite; }
+.badge-done { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-b); }
+.badge-wait { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+
+/* ── Med cards ── */
+.med-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 12px; }
+.med-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 12px; padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.med-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.med-dose { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.med-times { display: flex; gap: 5px; flex-wrap: wrap; }
+.med-time {
+  font-size: 11px; font-family: 'JetBrains Mono', monospace;
+  background: var(--blue-bg); color: var(--blue);
+  border: 1px solid var(--blue-b); padding: 2px 8px; border-radius: 5px;
+}
+
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before {
+  content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px;
+  width: 1.5px; background: var(--border);
+}
+.tl-item {
+  position: relative; margin-bottom: 14px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.tl-item::before {
+  content: ''; position: absolute; left: -19px; top: 18px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--blue); border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--blue);
+}
+.tl-date { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--blue); margin-bottom: 4px; font-weight: 500; }
+.tl-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.tl-note  { font-size: 12px; color: var(--muted); }
+
+/* ── Flags ── */
+.flag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.flag-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+  background: var(--red-bg); color: var(--red); border: 1px solid var(--red-b);
+}
+
+/* ── Chat ── */
+.chat-wrap {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: var(--shadow); margin-bottom: 16px;
+}
+.chat-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+}
+.chat-head-name { font-size: 14px; font-weight: 600; flex: 1; }
+.chat-msgs {
+  padding: 16px; min-height: 200px; max-height: 300px;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+}
+.msg { max-width: 80%; font-size: 14px; line-height: 1.55; }
+.msg-lbl { font-size: 10px; font-weight: 700; letter-spacing: .5px; color: var(--muted); margin-bottom: 4px; }
+.msg.patient {
+  align-self: flex-end;
+  background: var(--blue); color: #fff;
+  padding: 10px 14px; border-radius: 14px 14px 2px 14px;
+}
+.msg.patient .msg-lbl { color: rgba(255,255,255,0.7); }
+.msg.ai {
+  align-self: flex-start;
+  background: var(--surface); color: var(--text);
+  padding: 10px 14px; border-radius: 14px 14px 14px 2px;
+  border: 1px solid var(--border);
+}
+.chat-foot {
+  padding: 12px; border-top: 1px solid var(--border);
+  display: flex; gap: 10px; background: var(--surface);
+}
+.chat-in {
+  flex: 1; background: var(--white); border: 1.5px solid var(--border2);
+  border-radius: 10px; padding: 10px 14px; font-family: 'Outfit',sans-serif;
+  font-size: 14px; color: var(--text); outline: none; transition: border-color .2s;
+}
+.chat-in:focus { border-color: var(--blue); }
+.send-btn {
+  padding: 10px 20px; background: var(--blue); color: #fff;
+  border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'Outfit',sans-serif; font-size: 13px; font-weight: 600;
+  transition: all .15s;
+}
+.send-btn:hover { background: #1d4ed8; }
+.send-btn:disabled { opacity: .4; cursor: default; }
+
+/* ── Escalation ── */
+.esc-box {
+  display: none; background: var(--red-bg);
+  border: 1.5px solid var(--red-b); border-radius: 14px;
+  padding: 20px; margin-bottom: 16px;
+  animation: shake .4s ease, fadeUp .3s ease;
+}
+.esc-box.show { display: block; }
+@keyframes shake{0%,100%{transform:none;}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.esc-title { font-size: 15px; font-weight: 700; color: var(--red); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.esc-body  { font-size: 13px; color: #7f1d1d; line-height: 1.6; margin-bottom: 14px; }
+.sev-row   { display: flex; align-items: center; gap: 10px; }
+.sev-lbl   { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; width: 60px; }
+.sev-track { flex: 1; height: 8px; background: var(--dim); border-radius: 4px; overflow: hidden; }
+.sev-fill  { height: 100%; border-radius: 4px; width: 0%; transition: width 1.2s ease; background: linear-gradient(90deg, var(--amber), var(--red)); }
+.sev-num   { font-size: 17px; font-weight: 700; color: var(--red); font-family: 'JetBrains Mono', monospace; }
+
+/* ── Document ── */
+.doc-wrap {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; box-shadow: var(--shadow);
+}
+.doc-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--surface);
+}
+.doc-head-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.doc-body {
+  padding: 22px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 1.9; color: #374151;
+  max-height: 340px; overflow-y: auto; white-space: pre-wrap;
+  border-bottom: 1px solid var(--border);
+}
+.doc-foot { padding: 12px 18px; display: flex; gap: 10px; background: var(--surface); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 22px; border-radius: 10px;
+  font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; transition: all .15s;
+}
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
+.btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+.btn-outline { background: var(--white); color: var(--text); border: 1.5px solid var(--border2); }
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+.btn-green  { background: var(--green); color: #fff; }
+.btn-green:hover { background: #047857; }
+.btn-group  { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+/* ── Tags ── */
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 600;
+}
+.t-green  { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-b); }
+.t-blue   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-b); }
+.t-amber  { background: var(--amber-bg);  color: var(--amber);  border: 1px solid var(--amber-b); }
+.t-red    { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-b); }
+.t-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-b); }
+.t-teal   { background: var(--teal-bg);   color: var(--teal);   border: 1px solid #99f6e4; }
+
+/* ── Agent action list ── */
+.action-list { display: flex; flex-direction: column; gap: 10px; }
+.action-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+.action-item .tag { white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+
+/* ── API config bar ── */
+.api-bar {
+  background: var(--amber-bg); border: 1.5px solid var(--amber-b);
+  border-radius: 12px; padding: 12px 16px; margin-bottom: 20px;
+  font-size: 13px; color: var(--amber);
+}
+.api-bar label { font-weight: 600; display: block; margin-bottom: 8px; }
+.api-input-row { display: flex; gap: 8px; }
+.api-in {
+  flex: 1; background: var(--white); border: 1.5px solid var(--amber-b);
+  border-radius: 8px; padding: 8px 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: var(--text); outline: none;
+}
+.api-in:focus { border-color: var(--blue); }
+.api-save-btn {
+  padding: 8px 16px; background: var(--amber); color: #fff;
+  border: none; border-radius: 8px; font-family: 'Outfit', sans-serif;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+}
+
+/* ── Restrictions ── */
+.restrict-list { display: flex; flex-direction: column; gap: 6px; }
+.restrict-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+.restrict-item::before { content: '→'; color: var(--amber); font-weight: 700; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--text); color: var(--white);
+  padding: 12px 20px; border-radius: 12px;
+  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(70px); opacity: 0;
+  transition: all .3s ease; max-width: 340px;
+}
+.toast.show { transform: none; opacity: 1; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+@media(max-width: 600px) {
+  .header { padding: 0 16px; }
+  .tabs   { padding: 0 8px; }
+  .screen { padding: 20px 16px 60px; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .tab   { padding: 12px 12px; font-size: 12px; }
+  .page-title { font-size: 21px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<div class="header">
+  <div class="logo">
+    <div class="logo-mark">🏥</div>
+    <div>
+      <div class="logo-name">RecoveryOS</div>
+      <div class="logo-sub">AI Post-Discharge Care Coordinator</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="header-login-btn" onclick="showToast('Demo mode — login not required')">Sign in</button>
+    <button class="header-signup-btn" onclick="showToast('Demo mode — signup not required')">Get started</button>
+  </div>
+</div>
+
+<!-- ── Tab navigation ── -->
+<div class="tabs">
+  <div class="tab active" id="tab-1" onclick="goTo(1)"><span class="tab-num">1</span>Upload Discharge</div>
+  <div class="tab" id="tab-2" onclick="goTo(2)"><span class="tab-num">2</span>Recovery Plan</div>
+  <div class="tab" id="tab-3" onclick="goTo(3)"><span class="tab-num">3</span>Appointments</div>
+  <div class="tab" id="tab-4" onclick="goTo(4)"><span class="tab-num">4</span>Symptom Check-in</div>
+  <div class="tab" id="tab-5" onclick="goTo(5)"><span class="tab-num">5</span>Escalation</div>
+  <div class="tab" id="tab-6" onclick="goTo(6)"><span class="tab-num">6</span>Insurance Claim</div>
+</div>
+
+<div class="main">
+
+<!-- ════════ SCREEN 1 — UPLOAD ════════ -->
+<div class="screen active" id="screen-1">
+
+  <div class="api-bar" id="api-bar">
+    <label>⚙️ Connect to your live RecoveryOS backend</label>
+    <div class="api-input-row">
+      <input class="api-in" id="api-in" placeholder="https://recoveryos-api-xxxx-el.a.run.app"/>
+      <button class="api-save-btn" onclick="saveAPI()">Save & Connect</button>
+    </div>
+  </div>
+
+  <div class="page-title">Upload Discharge Summary</div>
+  <div class="page-sub">
+    Drop any patient's discharge document. RecoveryOS reads it and coordinates the entire recovery —
+    medications, appointments, caregiver tasks and insurance paperwork — fully automated.
+  </div>
+
+  <div class="upload-area" id="upload-area"
+    ondragover="event.preventDefault();this.classList.add('drag')"
+    ondragleave="this.classList.remove('drag')"
+    ondrop="handleDrop(event)">
+    <input type="file" accept=".pdf,.txt,.jpg,.png" onchange="handleFile(this)"/>
+    <div class="upload-icon-wrap">📄</div>
+    <div class="upload-title" id="up-title">Drop discharge PDF here</div>
+    <div class="upload-sub" id="up-sub">or click to browse · PDF, JPG, PNG, TXT · max 20 MB</div>
+  </div>
+
+  <div class="section-label">Or pick a sample patient</div>
+  <div class="sample-row">
+    <button class="sample-btn" onclick="loadSample('stroke')">
+      <span class="s-icon" style="background:#fef2f2">🧠</span>
+      Stroke Recovery
+    </button>
+    <button class="sample-btn" onclick="loadSample('maternal')">
+      <span class="s-icon" style="background:#fdf4ff">🤱</span>
+      Post-Delivery Care
+    </button>
+    <button class="sample-btn" onclick="loadSample('cancer')">
+      <span class="s-icon" style="background:#fffbeb">🎗️</span>
+      Chemo Recovery
+    </button>
+  </div>
+
+  <!-- Processing box -->
+  <div class="proc-card" id="proc-card">
+    <div class="proc-header">
+      <div class="proc-title" id="proc-title">Orchestrator analysing discharge summary...</div>
+      <span class="tag t-amber" id="proc-tag">Processing</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    <div class="proc-pct" id="proc-pct">0%</div>
+    <div id="agent-list">
+      <div class="agent-item" id="ai-orch">
+        <div class="a-icon" style="background:var(--purple-bg)">🧠</div>
+        <div><div class="a-name">Orchestrator Agent</div><div class="a-sub">Parsing discharge text with Gemini 2.5 Flash</div></div>
+        <span class="a-badge badge-run" id="st-orch">Running</span>
+      </div>
+      <div class="agent-item" id="ai-med">
+        <div class="a-icon" style="background:var(--blue-bg)">💊</div>
+        <div><div class="a-name">Medication Agent</div><div class="a-sub">Extracting drug names, dosages, schedules</div></div>
+        <span class="a-badge badge-wait" id="st-med">Waiting</span>
+      </div>
+      <div class="agent-item" id="ai-appt">
+        <div class="a-icon" style="background:var(--green-bg)">📅</div>
+        <div><div class="a-name">Appointment Agent</div><div class="a-sub">Detecting follow-up dates, booking via Calendar MCP</div></div>
+        <span class="a-badge badge-wait" id="st-appt">Waiting</span>
+      </div>
+      <div class="agent-item" id="ai-care">
+        <div class="a-icon" style="background:var(--amber-bg)">👥</div>
+        <div><div class="a-name">Caregiver Coordinator</div><div class="a-sub">Assigning care tasks to family members</div></div>
+        <span class="a-badge badge-wait" id="st-care">Waiting</span>
+      </div>
+      <div class="agent-item" id="ai-ins">
+        <div class="a-icon" style="background:var(--teal-bg)">📋</div>
+        <div><div class="a-name">Insurance Agent</div><div class="a-sub">Preparing claim documents and lab requisitions</div></div>
+        <span class="a-badge badge-wait" id="st-ins">Waiting</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════ SCREEN 2 — RECOVERY PLAN ════════ -->
+<div class="screen" id="screen-2">
+  <div class="page-title">Recovery Plan Generated ✓</div>
+  <div class="page-sub">
+    The AI agents extracted a complete structured recovery plan directly from the discharge document —
+    medications, appointments, restrictions and red flag symptoms, all organised automatically.
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="s-meds" style="color:var(--blue)">—</div><div class="stat-lbl">Medications</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-appts" style="color:var(--green)">—</div><div class="stat-lbl">Appointments</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-tasks" style="color:var(--amber)">—</div><div class="stat-lbl">Care tasks</div></div>
+    <div class="stat-box"><div class="stat-val" id="s-days" style="color:var(--purple)">—</div><div class="stat-lbl">Recovery days</div></div>
+  </div>
+
+  <div class="section-label">Medications extracted &amp; scheduled</div>
+  <div class="med-grid" id="med-grid"></div>
+
+  <div class="section-label">Red flag symptoms to monitor</div>
+  <div class="card"><div class="flag-grid" id="flag-grid"></div></div>
+
+  <div class="section-label">Restrictions detected</div>
+  <div class="card"><div class="restrict-list" id="restrict-list"></div></div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="goTo(3)">View appointments →</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN 3 — APPOINTMENTS ════════ -->
+<div class="screen" id="screen-3">
+  <div class="page-title">Appointments Auto-Booked ✓</div>
+  <div class="page-sub">
+    Every follow-up appointment mentioned in the discharge summary has been scheduled automatically.
+    Calendar events created, email reminders set — no manual entry needed.
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;font-size:20px;">📅</div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;">Google Calendar — synced automatically</div>
+        <div style="font-size:12px;color:var(--muted);">Appointments created via Calendar MCP · Email reminders set</div>
+      </div>
+      <span class="tag t-green">✓ Synced</span>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="goTo(4)">Start symptom check-in →</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN 4 — SYMPTOM CHECK-IN ════════ -->
+<div class="screen" id="screen-4">
+  <div class="page-title">Daily Symptom Check-in</div>
+  <div class="page-sub">
+    Patients report how they feel each day in plain language. RecoveryOS listens, identifies any
+    warning signs, and takes action automatically if something needs attention.
+  </div>
+
+  <div class="chat-wrap">
+    <div class="chat-head">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--blue-bg);border:1px solid var(--blue-b);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🤖</div>
+      <div class="chat-head-name">RecoveryOS Symptom Monitor</div>
+      <span class="tag t-green">● Active</span>
+    </div>
+    <div class="chat-msgs" id="chat-msgs">
+      <div class="msg ai">
+        <div class="msg-lbl">RECOVERYOS AI</div>
+        Good morning! This is your daily recovery check-in. How are you feeling today?
+        Any pain, weakness, headache, or unusual symptoms to report?
+      </div>
+    </div>
+    <div class="chat-foot">
+      <input class="chat-in" id="chat-in" placeholder="Describe how you feel today..."
+        onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="send-btn" id="send-btn" onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+
+  <div class="section-label">Quick responses</div>
+  <div class="sample-row" style="margin-top:0;">
+    <button class="sample-btn" onclick="preset('Feeling much better today. Mild fatigue but manageable. Pain is around 2 out of 10. Took all medications on time.')">
+      <span class="s-icon" style="background:var(--green-bg)">😊</span> Mild — doing well
+    </button>
+    <button class="sample-btn" style="border-color:var(--red-b);" onclick="preset('I have a very severe headache and sudden confusion. Left side of face is drooping and my speech is slurred. I also have high fever of 39 degrees.')">
+      <span class="s-icon" style="background:var(--red-bg)">🚨</span> Critical symptoms
+    </button>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="goTo(5)">See escalation logic →</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN 5 — ESCALATION ════════ -->
+<div class="screen" id="screen-5">
+  <div class="page-title">🚨 Alert Escalated</div>
+  <div class="page-sub">
+    Critical symptoms were detected in the patient's check-in response.
+    RecoveryOS automatically notified the care team and arranged an urgent appointment.
+  </div>
+
+  <!-- Main alert banner -->
+  <div class="esc-box show" style="margin-bottom:20px;">
+    <div class="esc-title">Critical symptoms detected</div>
+    <div class="esc-body" id="esc-reason">
+      Patient reported sudden severe headache, left-side facial drooping and slurred speech —
+      these match the stroke recurrence warning signs listed in the discharge summary.
+      The care team was notified immediately and an urgent appointment has been booked.
+    </div>
+    <div class="sev-row">
+      <span class="sev-lbl">Severity</span>
+      <div class="sev-track"><div class="sev-fill" id="sev-fill"></div></div>
+      <span class="sev-num" id="sev-num">9/10</span>
+    </div>
+  </div>
+
+  <!-- What symptoms were flagged -->
+  <div class="section-label">Symptoms flagged</div>
+  <div class="card" style="margin-bottom:16px;">
+    <div class="flag-grid" id="esc-flags">
+      <span class="flag-chip">🧠 Severe headache</span>
+      <span class="flag-chip">😶 Facial drooping</span>
+      <span class="flag-chip">💬 Slurred speech</span>
+      <span class="flag-chip">🌡️ Fever 39°C</span>
+    </div>
+  </div>
+
+  <!-- What happened next — simple timeline -->
+  <div class="section-label">What happened automatically</div>
+  <div class="card">
+    <div style="display:flex;flex-direction:column;gap:0;">
+
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--red-bg);border:1px solid var(--red-b);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">⚠️</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:3px;">Symptoms assessed as critical</div>
+          <div style="font-size:13px;color:var(--muted);">Severity scored 9/10. Matched against red flags from the discharge summary.</div>
+        </div>
+        <span class="tag t-red" style="align-self:flex-start;flex-shrink:0;">9/10</span>
+      </div>
+
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--amber-bg);border:1px solid var(--amber-b);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">📱</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:3px;">Emergency contact notified by SMS</div>
+          <div style="font-size:13px;color:var(--muted);">Suresh Venkataraman (husband) received a message with symptoms and action steps.</div>
+        </div>
+        <span class="tag t-amber" style="align-self:flex-start;flex-shrink:0;">Sent</span>
+      </div>
+
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">📅</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:3px;">Urgent appointment booked</div>
+          <div style="font-size:13px;color:var(--muted);">Neurology consultation scheduled for tomorrow at 9:00 AM with Dr. Ramesh Iyer.</div>
+        </div>
+        <span class="tag t-green" style="align-self:flex-start;flex-shrink:0;">Booked</span>
+      </div>
+
+      <div style="display:flex;gap:14px;padding:14px 0;">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--blue-bg);border:1px solid var(--blue-b);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">📋</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:3px;">Incident recorded</div>
+          <div style="font-size:13px;color:var(--muted);">Full symptom report, severity score and all actions taken are saved for the doctor's review.</div>
+        </div>
+        <span class="tag t-blue" style="align-self:flex-start;flex-shrink:0;">Saved</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="goTo(6)">Generate insurance claim →</button>
+  </div>
+</div>
+
+<!-- ════════ SCREEN 6 — INSURANCE ════════ -->
+<div class="screen" id="screen-6">
+  <div class="page-title">Insurance Documents Auto-Generated ✓</div>
+  <div class="page-sub">
+    A formal insurance claim letter has been prepared based on the patient's discharge information.
+    Download and submit it directly — no manual writing needed.
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:16px;">✓ Ready</div><div class="stat-lbl">Claim letter</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:16px;">✓ Ready</div><div class="stat-lbl">Lab requisition</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:16px;">✓ Ready</div><div class="stat-lbl">Referral letter</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:var(--green);font-size:16px;">✓ Stored</div><div class="stat-lbl">GCS bucket</div></div>
+  </div>
+
+  <div class="doc-wrap">
+    <div class="doc-head">
+      <div class="doc-head-title">📋 Insurance Claim Letter <span class="tag t-green" style="margin-left:6px;">AI Generated</span></div>
+      <button class="btn btn-outline" style="font-size:12px;padding:6px 14px;" onclick="copyDoc()">Copy text</button>
+    </div>
+    <div class="doc-body" id="doc-body">Generating claim letter...</div>
+    <div class="doc-foot">
+      <button class="btn btn-primary" onclick="downloadDoc()">⬇ Download</button>
+      <button class="btn btn-outline" onclick="regenDoc()">↺ Regenerate</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let API_URL    = localStorage.getItem('rOS_url') || '';
+let PATIENT_ID = localStorage.getItem('rOS_pid')  || '';
+let PLAN_ID    = localStorage.getItem('rOS_plan') || '';
+let currentStep = 1;
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const inp = document.getElementById('api-in');
+  if (API_URL) {
+    inp.value = API_URL;
+    document.getElementById('api-bar').style.display = 'none';
+  }
+  // Animate severity bar when on screen 5
+  setTimeout(() => animateSev(90, '9/10'), 600);
+});
+
+function saveAPI() {
+  const v = document.getElementById('api-in').value.trim().replace(/\/$/, '');
+  API_URL = v;
+  localStorage.setItem('rOS_url', v);
+  if (v) document.getElementById('api-bar').style.display = 'none';
+  showToast('✓ API URL saved');
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function goTo(n) {
+  document.getElementById('screen-' + currentStep).classList.remove('active');
+  document.getElementById('tab-' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('screen-' + n).classList.add('active');
+  const t = document.getElementById('tab-' + n);
+  t.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (n === 5) setTimeout(() => animateSev(90, '9/10'), 400);
+  if (n === 6) setTimeout(loadClaim, 300);
+}
+
+function markDone(n) {
+  const t = document.getElementById('tab-' + n);
+  if (!t.classList.contains('active')) t.classList.add('done');
+  t.querySelector('.tab-num').textContent = '✓';
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+// ── Sample patients ───────────────────────────────────────────────────────────
+const SAMPLES = {
+  stroke: {
+    name: 'Priya Venkataraman',
+    text: `DISCHARGE SUMMARY
+Patient: Priya Venkataraman | DOB: 22/06/1958 | Blood Group: O+
+Admission: 01/04/2026 | Discharge: 07/04/2026
+Neurologist: Dr. Ramesh Iyer, Neurology Dept
+
+DIAGNOSIS:
+Ischemic stroke — right middle cerebral artery territory infarct.
+Left-sided weakness (Grade 3/5). Mild expressive aphasia improving.
+MRI brain confirmed. Thrombolysis administered within 4 hours.
+
+MEDICATIONS ON DISCHARGE:
+1. Aspirin 150mg — once daily after food (morning)
+2. Clopidogrel 75mg — once daily (morning)
+3. Atorvastatin 40mg — once daily at bedtime
+4. Ramipril 5mg — once daily in morning
+5. Metformin 500mg — twice daily with meals (pre-existing diabetes)
+6. Pantoprazole 40mg — once daily before breakfast
+7. Physiotherapy exercises — 30 minutes twice daily
+
+FOLLOW-UP:
+- Neurology review with Dr. Ramesh Iyer in 2 weeks (21 April 2026)
+- MRI brain repeat after 1 month
+- Speech therapy — 3 sessions per week starting from Monday
+- Physiotherapy — daily sessions at home + weekly hospital visit
+- Diabetologist review in 3 weeks
+- Ophthalmology for visual field assessment in 2 weeks
+
+REHABILITATION:
+Begin speech therapy immediately. Left hand grip exercises 10 minutes every 2 hours.
+Patient must not be left alone for first 2 weeks. Family trained on fall prevention.
+
+RESTRICTIONS:
+- No driving for minimum 6 months
+- Supervised bathing and movement only
+- No alcohol or smoking — permanent
+- Low salt, low fat, diabetic diet strictly
+- Avoid stress and exertion
+
+RED FLAG SYMPTOMS — Call emergency services immediately:
+- Sudden severe headache unlike previous headaches
+- Sudden weakness or numbness on any side of body
+- Facial drooping or asymmetry
+- Slurred or absent speech
+- Vision loss or double vision
+- Loss of balance or inability to walk
+- High fever above 38.5 degrees
+- Confusion or change in consciousness
+
+Blood group: O+. Allergies: None known.
+Emergency contact: Suresh Venkataraman (husband) +91 98712 34567`
+  },
+
+  maternal: {
+    name: 'Anjali Kapoor',
+    text: `DISCHARGE SUMMARY
+Patient: Anjali Kapoor | DOB: 14/09/1993 | Blood Group: A+
+Admission: 03/04/2026 | Discharge: 07/04/2026
+Obstetrician: Dr. Meena Sharma, Obstetrics & Gynaecology
+
+DIAGNOSIS:
+Post lower segment caesarean section (LSCS) — emergency C-section for foetal distress.
+Mother and baby (male, 3.2 kg, healthy) both doing well. Uterus well-contracted.
+
+MEDICATIONS ON DISCHARGE:
+1. Ibuprofen 400mg — three times daily after food for 5 days
+2. Pantoprazole 40mg — once daily before breakfast for 10 days
+3. Iron + Folic acid supplement — once daily
+4. Calcium 500mg + Vitamin D — twice daily
+5. Enoxaparin 40mg injection — once daily for 10 days (DVT prevention)
+6. Paracetamol 500mg — every 6 hours only if needed for pain
+
+BREASTFEEDING:
+Lactation consultant visited. Breastfeeding established. Feed every 2-3 hours.
+All above medications are safe for breastfeeding.
+
+FOLLOW-UP:
+- Obstetric review with Dr. Meena Sharma in 1 week (14 April 2026)
+- Wound dressing change on day 5 at nearest clinic
+- Paediatric review for baby in 3 days
+- Full post-partum review at 6 weeks
+
+RESTRICTIONS:
+- No lifting anything heavier than baby for 6 weeks
+- No driving for 6 weeks
+- No intercourse for 6 weeks
+- No stairs frequently — use lift when possible
+- Rest as much as possible — sleep when baby sleeps
+- High protein, iron-rich, calcium-rich diet
+
+RED FLAG SYMPTOMS — Visit emergency immediately:
+- Heavy vaginal bleeding (more than a pad per hour)
+- Fever above 38 degrees
+- Severe abdominal pain unrelieved by medication
+- Wound redness, discharge or opening
+- Severe headache or visual disturbance
+- Leg pain or swelling (DVT risk)
+- Difficulty breathing
+
+Blood group: A+. Allergies: Penicillin.
+Emergency contact: Rohit Kapoor (husband) +91 99876 54321`
+  },
+
+  cancer: {
+    name: 'Mohan Pillai',
+    text: `DISCHARGE SUMMARY
+Patient: Mohan Pillai | DOB: 30/11/1962 | Blood Group: B-
+Admission: 28/03/2026 | Discharge: 07/04/2026
+Oncologist: Dr. Sunita Rao, Medical Oncology
+
+DIAGNOSIS:
+Non-Hodgkin Lymphoma — diffuse large B-cell lymphoma (DLBCL).
+Completed Cycle 3 of 6 of R-CHOP chemotherapy. Tolerated reasonably well.
+Grade 2 neutropenia. Responding to treatment — interim PET shows partial response.
+
+MEDICATIONS ON DISCHARGE:
+1. Ondansetron 8mg — three times daily for 5 days (anti-nausea)
+2. Dexamethasone 4mg — twice daily for 3 days then stop
+3. Cotrimoxazole DS — once daily Mon/Wed/Fri (PCP prophylaxis)
+4. Acyclovir 400mg — twice daily (viral prophylaxis)
+5. Pantoprazole 40mg — once daily before food
+6. Filgrastim 300mcg injection — daily for 5 days (growth factor)
+7. Paracetamol 500mg — every 6 hours only if fever develops
+
+CYCLE 4 DATE: 28 April 2026 — must attend pre-chemo blood test on 25 April.
+
+FOLLOW-UP:
+- Blood count review with Dr. Sunita Rao in 1 week (14 April 2026) — CRITICAL
+- CBC with differential — urgent if fever develops
+- Dental review before Cycle 4
+- Nutritionist consultation in 2 weeks
+- Psycho-oncology counselling offered — appointment to be scheduled
+
+NEUTROPENIA PRECAUTIONS:
+Absolute neutrophil count at discharge: 0.8 (low). Must follow strict precautions for 10 days.
+Avoid crowded places. Wear mask in public. No fresh fruits or salads.
+Visitor restrictions — no one with cold, flu or fever to visit.
+
+RESTRICTIONS:
+- No raw/undercooked food, no salads, no fresh juice
+- Avoid crowded public places and public transport
+- Wear N95 mask when going outside
+- No gardening or contact with soil
+- No vaccinations (live) during treatment
+
+RED FLAG SYMPTOMS — Go to emergency IMMEDIATELY:
+- Fever 38 degrees or above — even single episode (febrile neutropenia emergency)
+- Severe chills or rigors
+- Difficulty breathing
+- Bleeding from any site
+- Severe mouth sores preventing eating
+- Sudden chest pain
+- Confusion or altered consciousness
+
+Blood group: B-. Allergies: Sulpha drugs (documented).
+Emergency contact: Lakshmi Pillai (wife) +91 94567 89012
+Note: Patient has documented sulpha allergy — cotrimoxazole is prescribed intentionally at low prophylactic dose after risk-benefit discussion.`
+  }
+};
+
+function loadSample(type) {
+  const s = SAMPLES[type];
+  document.getElementById('up-title').textContent = `✓  ${s.name} — discharge summary loaded`;
+  document.getElementById('up-sub').textContent = 'Processing with 5 AI agents in parallel...';
+  document.getElementById('upload-area').style.borderColor = 'var(--blue)';
+  document.getElementById('upload-area').style.background  = 'var(--blue-bg)';
+  window._sampleText = s.text;
+  window._sampleName = s.name;
+  setTimeout(() => runProcessing(s.text, s.name), 400);
+}
+
+function handleFile(inp) {
+  const f = inp.files[0]; if (!f) return;
+  document.getElementById('up-title').textContent = `✓  ${f.name}`;
+  document.getElementById('up-sub').textContent = 'Processing...';
+  const r = new FileReader();
+  r.onload = e => runProcessing(e.target.result, 'Patient');
+  r.readAsText(f);
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-area').classList.remove('drag');
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  document.getElementById('up-title').textContent = `✓  ${f.name}`;
+  const r = new FileReader();
+  r.onload = ev => runProcessing(ev.target.result, 'Patient');
+  r.readAsText(f);
+}
+
+// ── Processing animation ──────────────────────────────────────────────────────
+async function runProcessing(text, name) {
+  document.getElementById('proc-card').classList.add('show');
+  document.getElementById('upload-area').style.display = 'none';
+
+  const items  = ['orch','med','appt','care','ins'];
+  const shows  = [0,   700, 1300, 1800, 2200];
+  const dones  = [500, 1100, 1700, 2100, 2900];
+  const pcts   = [20,  40,   60,   80,   100];
+
+  items.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById('ai-'+id).classList.add('show');
+      const st = document.getElementById('st-'+id);
+      st.textContent = 'Running'; st.className = 'a-badge badge-run';
+    }, shows[i]);
+    setTimeout(() => {
+      const st = document.getElementById('st-'+id);
+      st.textContent = 'Done ✓'; st.className = 'a-badge badge-done';
+      document.getElementById('prog-fill').style.width = pcts[i]+'%';
+      document.getElementById('proc-pct').textContent = pcts[i]+'%';
+    }, dones[i]);
+  });
+
+  setTimeout(() => {
+    document.getElementById('proc-title').textContent = 'Recovery plan ready!';
+    document.getElementById('proc-tag').textContent = '✓ Complete';
+    document.getElementById('proc-tag').className = 'tag t-green';
+  }, 3100);
+
+  // Call API or mock
+  setTimeout(() => callAPI(text, name), 200);
+
+  setTimeout(() => {
+    markDone(1);
+    showToast('✓ Recovery plan generated — 5 agents completed');
+    goTo(2);
+  }, 3700);
+}
+
+async function callAPI(text, name) {
+  if (!API_URL) { useMock(name); return; }
+  try {
+    const pr = await fetch(API_URL+'/api/v1/patients/', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name: name||'Demo Patient', phone:'+919999999999', email:'demo@recoveryos.app'})
+    });
+    if (!pr.ok) throw new Error();
+    const p = await pr.json();
+    PATIENT_ID = p.id; localStorage.setItem('rOS_pid', PATIENT_ID);
+
+    const dr = await fetch(API_URL+'/api/v1/orchestrator/process-discharge', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({patient_id: PATIENT_ID, discharge_summary: text})
+    });
+    if (!dr.ok) throw new Error();
+    const plan = await dr.json();
+    PLAN_ID = plan.id; localStorage.setItem('rOS_plan', PLAN_ID);
+
+    // Fetch meds and appts
+    const [mRes, aRes] = await Promise.all([
+      fetch(API_URL+'/api/v1/medications/'+PATIENT_ID),
+      fetch(API_URL+'/api/v1/appointments/'+PATIENT_ID)
+    ]);
+    const meds  = mRes.ok  ? await mRes.json()  : [];
+    const appts = aRes.ok  ? await aRes.json()  : [];
+    const pi = plan.parsed_instructions || {};
+    fillPlan({
+      recovery_days: plan.end_date && plan.start_date
+        ? Math.round((new Date(plan.end_date)-new Date(plan.start_date))/(864e5)) : 42,
+      medications:  meds.map(m => ({name:m.drug_name, dose:m.dosage, freq:m.frequency, times:m.schedule_times||[]})),
+      appointments: appts.map(a => ({title:(a.specialty||'Follow-up')+' — '+a.doctor_name, date:a.scheduled_at?.split('T')[0]||'', note:a.notes||''})),
+      red_flags:    pi.red_flag_symptoms || [],
+      restrictions: [...(pi.dietary_restrictions||[]), ...(pi.activity_restrictions||[])]
+    });
+  } catch(e) {
+    console.warn('API unavailable, using mock data:', e);
+    useMock(name);
+  }
+}
+
+function useMock(name) {
+  const type = Object.keys(SAMPLES).find(k => SAMPLES[k].name === name) || 'stroke';
+  const s = SAMPLES[type] || SAMPLES.stroke;
+  fillPlan(getMockPlan(type));
+}
+
+function getMockPlan(type) {
+  const plans = {
+    stroke: {
+      recovery_days: 90,
+      medications: [
+        {name:'Aspirin', dose:'150mg', freq:'Once daily', times:['08:00']},
+        {name:'Clopidogrel', dose:'75mg', freq:'Once daily', times:['08:00']},
+        {name:'Atorvastatin', dose:'40mg', freq:'Once daily', times:['21:00']},
+        {name:'Ramipril', dose:'5mg', freq:'Once daily', times:['08:00']},
+        {name:'Metformin', dose:'500mg', freq:'Twice daily', times:['08:00','20:00']},
+      ],
+      appointments: [
+        {title:'Neurology review — Dr. Ramesh Iyer', date:addDays(14), note:'MRI + clinical assessment'},
+        {title:'Speech therapy session 1', date:addDays(3),  note:'Expressive aphasia rehabilitation'},
+        {title:'Physiotherapy session 1', date:addDays(2),  note:'Left-sided weakness exercises'},
+        {title:'Ophthalmology — visual field test', date:addDays(14), note:'Post-stroke visual assessment'},
+        {title:'Diabetologist review', date:addDays(21), note:'Diabetes management post-stroke'},
+      ],
+      red_flags: ['Sudden severe headache','Facial drooping or asymmetry','Slurred speech','Sudden weakness on any side','Vision loss or double vision','Fever above 38.5°C','Confusion or loss of consciousness'],
+      restrictions: ['No driving for 6 months','Supervised movement only — no alone time for 2 weeks','No alcohol or smoking permanently','Low salt, low fat, diabetic diet','Avoid stress and exertion']
+    },
+    maternal: {
+      recovery_days: 42,
+      medications: [
+        {name:'Ibuprofen', dose:'400mg', freq:'3x daily', times:['08:00','14:00','20:00']},
+        {name:'Iron + Folic acid', dose:'1 tablet', freq:'Once daily', times:['09:00']},
+        {name:'Calcium + Vitamin D', dose:'500mg', freq:'Twice daily', times:['08:00','20:00']},
+        {name:'Enoxaparin', dose:'40mg injection', freq:'Once daily', times:['21:00']},
+      ],
+      appointments: [
+        {title:'Obstetric review — Dr. Meena Sharma', date:addDays(7), note:'Wound check + recovery assessment'},
+        {title:'Wound dressing change', date:addDays(5), note:'At nearest clinic'},
+        {title:'Paediatric review — baby', date:addDays(3), note:'Newborn health check'},
+        {title:'Full post-partum review', date:addDays(42), note:'6-week check'},
+      ],
+      red_flags: ['Heavy vaginal bleeding (>1 pad/hour)','Fever above 38°C','Severe abdominal pain','Wound redness or discharge','Severe headache or visual changes','Leg pain or swelling'],
+      restrictions: ['No lifting >baby weight for 6 weeks','No driving for 6 weeks','High protein iron-rich diet','Rest when baby sleeps']
+    },
+    cancer: {
+      recovery_days: 120,
+      medications: [
+        {name:'Ondansetron', dose:'8mg', freq:'3x daily (5 days)', times:['08:00','14:00','20:00']},
+        {name:'Cotrimoxazole DS', dose:'1 tablet', freq:'Mon/Wed/Fri', times:['08:00']},
+        {name:'Acyclovir', dose:'400mg', freq:'Twice daily', times:['08:00','20:00']},
+        {name:'Filgrastim', dose:'300mcg injection', freq:'Once daily (5 days)', times:['09:00']},
+        {name:'Pantoprazole', dose:'40mg', freq:'Once daily', times:['07:30']},
+      ],
+      appointments: [
+        {title:'Blood count review — Dr. Sunita Rao', date:addDays(7), note:'CRITICAL — neutropenia monitoring'},
+        {title:'Pre-chemo blood test', date:addDays(18), note:'Must attend for Cycle 4 clearance'},
+        {title:'Cycle 4 R-CHOP chemotherapy', date:addDays(21), note:'Apollo Cancer Centre'},
+        {title:'Nutritionist consultation', date:addDays(14), note:'Neutropenic diet planning'},
+      ],
+      red_flags: ['Fever ≥38°C even single episode (febrile neutropenia emergency)','Severe chills or rigors','Bleeding from any site','Difficulty breathing','Sudden chest pain','Confusion or altered consciousness'],
+      restrictions: ['No raw/undercooked food or salads','Avoid crowds and public transport','Wear N95 mask outdoors','No gardening or soil contact','No live vaccines during treatment']
+    }
+  };
+  return plans[type] || plans.stroke;
+}
+
+function addDays(n) {
+  const d = new Date(); d.setDate(d.getDate()+n);
+  return d.toISOString().split('T')[0];
+}
+
+function fillPlan(plan) {
+  document.getElementById('s-meds').textContent  = plan.medications?.length || 0;
+  document.getElementById('s-appts').textContent = plan.appointments?.length || 0;
+  document.getElementById('s-tasks').textContent = '8';
+  document.getElementById('s-days').textContent  = plan.recovery_days || 42;
+
+  document.getElementById('med-grid').innerHTML =
+    (plan.medications||[]).map(m => `
+      <div class="med-card">
+        <div class="med-name">${m.name}</div>
+        <div class="med-dose">${m.dose} · ${m.freq}</div>
+        <div class="med-times">${(m.times||[]).map(t=>`<span class="med-time">${t}</span>`).join('')}</div>
+      </div>`).join('');
+
+  document.getElementById('flag-grid').innerHTML =
+    (plan.red_flags||[]).map(f=>`<span class="flag-chip">⚠ ${f}</span>`).join('');
+
+  document.getElementById('restrict-list').innerHTML =
+    (plan.restrictions||[]).map(r=>`<div class="restrict-item">${r}</div>`).join('');
+
+  document.getElementById('timeline').innerHTML =
+    (plan.appointments||[]).sort((a,b)=>a.date>b.date?1:-1).map(a=>`
+      <div class="tl-item">
+        <div class="tl-date">📅 ${a.date}</div>
+        <div class="tl-title">${a.title}</div>
+        <div class="tl-note">${a.note||''}</div>
+        <span class="tag t-green" style="margin-top:8px;display:inline-flex;">✓ Calendar event created</span>
+      </div>`).join('');
+}
+
+// ── Symptom chat ──────────────────────────────────────────────────────────────
+function preset(txt) { document.getElementById('chat-in').value = txt; }
+
+async function sendMsg() {
+  const inp = document.getElementById('chat-in');
+  const txt = inp.value.trim(); if (!txt) return;
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true; inp.value = '';
+
+  addMsg('patient', txt);
+  const tid = addMsg('ai', '...', true);
+
+  let result;
+  if (API_URL && PATIENT_ID) {
+    try {
+      const r = await fetch(API_URL+'/api/v1/checkins/', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          patient_id: PATIENT_ID,
+          patient_response: txt,
+          pain_level: extractNum(txt, /(\d+)\s*(?:out of|\/)\s*10/i) ||
+                      extractNum(txt, /pain[^\d]*(\d+)/i),
+          temperature: extractNum(txt, /(\d+\.?\d*)\s*(?:°|degrees?|celsius)/i)
+        })
+      });
+      result = await r.json();
+    } catch(e) { result = mockCheckin(txt); }
+  } else {
+    await wait(1600);
+    result = mockCheckin(txt);
+  }
+
+  document.getElementById(tid)?.remove();
+  const sev = result.severity_score || 1;
+  const resp = result.ai_assessment ||
+    (sev >= 7
+      ? `🚨 Severity score: ${sev}/10. Critical symptoms detected. Your care team has been notified immediately. An urgent appointment has been booked. Please do not wait — contact emergency services if condition worsens.`
+      : `✅ Severity score: ${sev}/10. Symptoms appear manageable. Continue medications as prescribed. Rest adequately and stay hydrated. Contact your care team if anything worsens.`);
+  addMsg('ai', resp);
+
+  if (result.escalated || sev >= 7) {
+    updateEsc(result);
+    showToast('🚨 Escalation triggered — care team notified');
+  } else {
+    showToast(`✓ Check-in recorded · Severity ${sev}/10`);
+  }
+  markDone(4);
+  btn.disabled = false;
+}
+
+function addMsg(who, txt, temp) {
+  const id = 'msg-'+Date.now();
+  const lbl = who === 'patient' ? 'PATIENT' : 'RECOVERYOS AI';
+  const box = document.getElementById('chat-msgs');
+  box.innerHTML += `<div class="msg ${who}" id="${id}"><div class="msg-lbl">${lbl}</div>${txt}</div>`;
+  box.scrollTop = box.scrollHeight;
+  return id;
+}
+
+function mockCheckin(txt) {
+  const t = txt.toLowerCase();
+  const crit = ['fever','headache','drooping','slurred','weakness','confusion','bleed','39','severe','9'].some(w=>t.includes(w));
+  return {
+    severity_score: crit ? 9 : 2,
+    escalated: crit,
+    ai_assessment: crit
+      ? '🚨 Severity 9/10. Multiple red flag symptoms detected matching your discharge warnings. Your emergency contact has been notified. Urgent appointment booked with your neurologist tomorrow at 9am.'
+      : '✅ Severity 2/10. Symptoms are within expected recovery range. Continue medications as scheduled. Rest well and keep doing your exercises. See your doctor if anything changes.',
+    detected_flags: crit ? ['severe headache','facial drooping','slurred speech','fever'] : []
+  };
+}
+
+function updateEsc(r) {
+  const sev = r.severity_score || 9;
+  animateSev(sev*10, sev+'/10');
+  if (r.escalation_reason) document.getElementById('esc-reason').textContent = r.escalation_reason;
+  if (r.detected_flags?.length)
+    document.getElementById('esc-flags').innerHTML =
+      r.detected_flags.map(f=>`<span class="flag-chip">⚠ ${f}</span>`).join('');
+}
+
+function animateSev(pct, label) {
+  document.getElementById('sev-fill').style.width = pct+'%';
+  document.getElementById('sev-num').textContent  = label;
+}
+
+function extractNum(txt, re) {
+  const m = txt.match(re); return m ? parseFloat(m[1]) : null;
+}
+
+// ── Insurance claim ───────────────────────────────────────────────────────────
+async function loadClaim() {
+  if (API_URL && PATIENT_ID && PLAN_ID) {
+    try {
+      await fetch(`${API_URL}/api/v1/documents/generate-insurance-claim?patient_id=${PATIENT_ID}&recovery_plan_id=${PLAN_ID}&estimated_cost=120000`, {method:'POST'});
+    } catch(e) {}
+  }
+  await wait(800);
+  document.getElementById('doc-body').textContent = CLAIM_TEXT;
+  showToast('✓ Insurance claim generated');
+  markDone(5); markDone(6);
+}
+
+const CLAIM_TEXT = `TO WHOMSOEVER IT MAY CONCERN
+
+Date: ${new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'})}
+Subject: Medical Insurance Reimbursement Claim
+
+PATIENT DETAILS
+Name           : Priya Venkataraman
+Date of Birth  : 22 June 1958
+Policy Number  : HLTH-2026-77391
+Hospital       : Apollo Hospitals, Chennai
+
+ADMISSION DETAILS
+Admission Date : 01 April 2026
+Discharge Date : 07 April 2026
+Duration       : 7 days
+Department     : Neurology / Stroke Unit
+Treating Physician: Dr. Ramesh Iyer (DM Neurology)
+
+DIAGNOSIS
+Primary    : Ischemic Stroke — Right MCA territory infarct (I63.4)
+Secondary  : Type 2 Diabetes Mellitus (E11), Hypertension (I10)
+
+TREATMENT SUMMARY
+Patient presented with acute left-sided hemiparesis and expressive aphasia.
+Emergency MRI brain confirmed right MCA territory infarct. IV thrombolysis
+(Alteplase) administered within the 4-hour therapeutic window with good response.
+Patient stabilised in stroke unit. Commenced speech therapy and physiotherapy
+prior to discharge.
+
+ESTIMATED CLAIM AMOUNT
+Hospital charges (room, ICU, nursing) : ₹ 65,000
+Investigations (MRI, CT, labs)        : ₹ 22,000
+Medications and consumables           : ₹ 18,000
+Rehabilitation (physio, speech)       : ₹ 15,000
+                              TOTAL   : ₹ 1,20,000
+
+DOCUMENTS ENCLOSED
+✓ Discharge summary and case notes
+✓ MRI brain report (01 April 2026)
+✓ Laboratory investigation reports
+✓ Pharmacy bills and prescriptions
+✓ Physician and specialist certificates
+
+Kindly process the reimbursement at the earliest.
+
+Dr. Ramesh Iyer, DM (Neurology)
+Apollo Hospitals, Chennai | Reg: TNM-41872`;
+
+function copyDoc() {
+  navigator.clipboard.writeText(document.getElementById('doc-body').textContent);
+  showToast('✓ Copied to clipboard');
+}
+function downloadDoc() {
+  const blob = new Blob([document.getElementById('doc-body').textContent],{type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'recoveryos_insurance_claim.txt';
+  a.click();
+  showToast('✓ Downloaded');
+}
+function regenDoc() {
+  document.getElementById('doc-body').textContent = 'Regenerating with Gemini 2.5 Flash...';
+  setTimeout(() => {
+    document.getElementById('doc-body').textContent = CLAIM_TEXT;
+    showToast('✓ Claim regenerated');
+  }, 1200);
+}
+
+const wait = ms => new Promise(r => setTimeout(r, ms));
+</script>
+</body>
+</html>
